@@ -13,11 +13,9 @@ class SlackAPI
     end
     data
   end
-
 end
 
 class Web
-
 
   def login_slack(email,password)
 

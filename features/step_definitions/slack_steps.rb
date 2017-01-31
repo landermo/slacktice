@@ -47,7 +47,6 @@ Then(/^I should see "([^"]*)" on the \#(\w+) page$/) do |message, channel|
   #   look for a message by this user, with the right text, posted "recently"
 end
 
-
 When(/^I send a message from the \#(\w+) page$/) do |channel|
   @message = Faker::Company.catch_phrase
   email = 'lmontgomery@boomtownroi.com'
@@ -61,5 +60,4 @@ When(/^I send a message from the \#(\w+) page$/) do |channel|
   textbox.click
   textbox.send_keys @message
   textbox.submit
-
 end
