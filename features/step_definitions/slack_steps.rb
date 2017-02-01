@@ -30,21 +30,26 @@ When(/^I send "([^"]*)" to \#(\w+)$/) do |message, channel|
       channel: channel_id
   }
 end
+#
+# Then(/^I should see that message on the \#(\w+) page$/) do |channel|
+#   "I should see \"#{@message}\" on the ##{channel} page"
+# end
 
-Then(/^I should see that message on the \#(\w+) page$/) do |channel|
-  "I should see \"#{@message}\" on the ##{channel} page"
-end
+Then(/^I should see that ([^"]*) on the test page$/) do |message|
 
-Then(/^I should see "([^"]*)" on the \#(\w+) page$/) do |message, channel|
-  find_channel(channel)
-  # Look for the last message
-  messages = Driver.find_elements(:css, '.message')
-  last_message = messages.last
-
-  expect(last_message.text).to include message
+  # # Look for the last message
+  # messages = Driver.find_elements(:css, '.message')
+  # last_message = messages.last
+  #
+  # expect(last_message.text).to include message
 
   # TODO: instead of grabbing the last message
   #   look for a message by this user, with the right text, posted "recently"
+  my_message = Driver.find_element(:a, '/team/laura')
+  lm = my_message.find_elements(:css, 'message_body')
+  lm.find {|s| s.text == message}
+  expect(lm.text).to include message
+
 end
 
 When(/^I send a message from the \#(\w+) page$/) do |channel|
@@ -55,7 +60,8 @@ When(/^I send a message from the \#(\w+) page$/) do |channel|
   slack.login_slack(email, password)
   slack.find_channel(channel)
 
-  Selenium::WebDriver::Wait.new timeout: 20
+  slack.wait_for 'msg_input'
+  Selenium::WebDriver::Wait.new timeout: 300
   textbox = Driver.find_element(:id, 'msg_input')
   textbox.click
   textbox.send_keys @message

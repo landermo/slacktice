@@ -42,7 +42,7 @@ class Web
 
   def find_channel(channel)
     # On the home page
-    wait = Selenium::WebDriver::Wait.new timeout: 20
+    wait = Selenium::WebDriver::Wait.new timeout: 25
     headers = Driver.find_elements :css, 'button.channel_list_header_label'
     channel_link = wait.until do
       el = headers.find { |b| b.text.start_with? 'CHANNELS' }
